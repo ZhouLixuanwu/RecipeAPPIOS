@@ -9,21 +9,49 @@
 /* Begin PBXBuildFile section */
 		BC6FFD5A2A72E2360003FD6C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD592A72E2360003FD6C /* AppDelegate.swift */; };
 		BC6FFD5C2A72E2360003FD6C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD5B2A72E2360003FD6C /* SceneDelegate.swift */; };
-		BC6FFD5E2A72E2360003FD6C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD5D2A72E2360003FD6C /* ViewController.swift */; };
-		BC6FFD612A72E2360003FD6C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC6FFD5F2A72E2360003FD6C /* Main.storyboard */; };
 		BC6FFD632A72E2370003FD6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC6FFD622A72E2370003FD6C /* Assets.xcassets */; };
-		BC6FFD662A72E2370003FD6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC6FFD642A72E2370003FD6C /* LaunchScreen.storyboard */; };
+		BC6FFD6E2A72E2810003FD6C /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD6D2A72E2810003FD6C /* LoginVC.swift */; };
+		BC6FFD702A72FAD10003FD6C /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD6F2A72FAD10003FD6C /* HomeVC.swift */; };
+		BC6FFD722A72FC3B0003FD6C /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD712A72FC3B0003FD6C /* SettingsVC.swift */; };
+		BC6FFD742A72FF770003FD6C /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD732A72FF770003FD6C /* TabBarController.swift */; };
+		BC6FFD7A2A73084E0003FD6C /* AERecipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD792A73084E0003FD6C /* AERecipeVC.swift */; };
+		BC6FFD7C2A731D720003FD6C /* InputFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD7B2A731D720003FD6C /* InputFieldView.swift */; };
+		BC6FFD7E2A7324BE0003FD6C /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD7D2A7324BE0003FD6C /* DetailVC.swift */; };
+		BC6FFD802A7325240003FD6C /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD7F2A7325240003FD6C /* TagView.swift */; };
+		BC6FFD822A7325380003FD6C /* IngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD812A7325380003FD6C /* IngredientView.swift */; };
+		BC6FFD852A74D9410003FD6C /* RecipeApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFD832A74D9410003FD6C /* RecipeApp.xcdatamodeld */; };
+		BC6FFDAD2A74E63A0003FD6C /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDAC2A74E63A0003FD6C /* DataController.swift */; };
+		BC6FFDB62A74EA120003FD6C /* Category+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDAE2A74EA120003FD6C /* Category+CoreDataClass.swift */; };
+		BC6FFDB82A74EA120003FD6C /* Recipe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDB02A74EA120003FD6C /* Recipe+CoreDataClass.swift */; };
+		BC6FFDBA2A74EA120003FD6C /* RecipeIngredient+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDB22A74EA120003FD6C /* RecipeIngredient+CoreDataClass.swift */; };
+		BC6FFDBC2A74EA120003FD6C /* Ingredient+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDB42A74EA120003FD6C /* Ingredient+CoreDataClass.swift */; };
+		BC6FFDC12A75F3DB0003FD6C /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDC02A75F3DB0003FD6C /* RecipeTableViewCell.swift */; };
+		BC6FFDC82A7616260003FD6C /* TestPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDC72A7616260003FD6C /* TestPageVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BC6FFD562A72E2360003FD6C /* Project1_RecipeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project1_RecipeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC6FFD592A72E2360003FD6C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BC6FFD5B2A72E2360003FD6C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BC6FFD5D2A72E2360003FD6C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BC6FFD602A72E2360003FD6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BC6FFD622A72E2370003FD6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BC6FFD652A72E2370003FD6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC6FFD672A72E2370003FD6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC6FFD6D2A72E2810003FD6C /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		BC6FFD6F2A72FAD10003FD6C /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		BC6FFD712A72FC3B0003FD6C /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		BC6FFD732A72FF770003FD6C /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		BC6FFD792A73084E0003FD6C /* AERecipeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AERecipeVC.swift; sourceTree = "<group>"; };
+		BC6FFD7B2A731D720003FD6C /* InputFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFieldView.swift; sourceTree = "<group>"; };
+		BC6FFD7D2A7324BE0003FD6C /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
+		BC6FFD7F2A7325240003FD6C /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		BC6FFD812A7325380003FD6C /* IngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientView.swift; sourceTree = "<group>"; };
+		BC6FFD842A74D9410003FD6C /* RecipeApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RecipeApp.xcdatamodel; sourceTree = "<group>"; };
+		BC6FFDAC2A74E63A0003FD6C /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		BC6FFDAE2A74EA120003FD6C /* Category+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BC6FFDB02A74EA120003FD6C /* Recipe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Recipe+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BC6FFDB22A74EA120003FD6C /* RecipeIngredient+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeIngredient+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BC6FFDB42A74EA120003FD6C /* Ingredient+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredient+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BC6FFDC02A75F3DB0003FD6C /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
+		BC6FFDC72A7616260003FD6C /* TestPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPageVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +68,7 @@
 		BC6FFD4D2A72E2360003FD6C = {
 			isa = PBXGroup;
 			children = (
+				BC6FFDAB2A74E61E0003FD6C /* Model */,
 				BC6FFD582A72E2360003FD6C /* Project1_RecipeApp */,
 				BC6FFD572A72E2360003FD6C /* Products */,
 			);
@@ -56,15 +85,52 @@
 		BC6FFD582A72E2360003FD6C /* Project1_RecipeApp */ = {
 			isa = PBXGroup;
 			children = (
-				BC6FFD592A72E2360003FD6C /* AppDelegate.swift */,
-				BC6FFD5B2A72E2360003FD6C /* SceneDelegate.swift */,
-				BC6FFD5D2A72E2360003FD6C /* ViewController.swift */,
-				BC6FFD5F2A72E2360003FD6C /* Main.storyboard */,
-				BC6FFD622A72E2370003FD6C /* Assets.xcassets */,
-				BC6FFD642A72E2370003FD6C /* LaunchScreen.storyboard */,
+				BC6FFD6D2A72E2810003FD6C /* LoginVC.swift */,
+				BC6FFD6F2A72FAD10003FD6C /* HomeVC.swift */,
+				BC6FFD7D2A7324BE0003FD6C /* DetailVC.swift */,
+				BC6FFD792A73084E0003FD6C /* AERecipeVC.swift */,
+				BC6FFDC72A7616260003FD6C /* TestPageVC.swift */,
+				BC6FFD712A72FC3B0003FD6C /* SettingsVC.swift */,
+				BC6FFD772A72FFC00003FD6C /* UI */,
+				BC6FFD782A72FFE50003FD6C /* Supportings */,
 				BC6FFD672A72E2370003FD6C /* Info.plist */,
 			);
 			path = Project1_RecipeApp;
+			sourceTree = "<group>";
+		};
+		BC6FFD772A72FFC00003FD6C /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				BC6FFD732A72FF770003FD6C /* TabBarController.swift */,
+				BC6FFD7F2A7325240003FD6C /* TagView.swift */,
+				BC6FFD7B2A731D720003FD6C /* InputFieldView.swift */,
+				BC6FFD812A7325380003FD6C /* IngredientView.swift */,
+				BC6FFDC02A75F3DB0003FD6C /* RecipeTableViewCell.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		BC6FFD782A72FFE50003FD6C /* Supportings */ = {
+			isa = PBXGroup;
+			children = (
+				BC6FFD592A72E2360003FD6C /* AppDelegate.swift */,
+				BC6FFD5B2A72E2360003FD6C /* SceneDelegate.swift */,
+				BC6FFD622A72E2370003FD6C /* Assets.xcassets */,
+			);
+			path = Supportings;
+			sourceTree = "<group>";
+		};
+		BC6FFDAB2A74E61E0003FD6C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BC6FFDAE2A74EA120003FD6C /* Category+CoreDataClass.swift */,
+				BC6FFDB02A74EA120003FD6C /* Recipe+CoreDataClass.swift */,
+				BC6FFDB22A74EA120003FD6C /* RecipeIngredient+CoreDataClass.swift */,
+				BC6FFDB42A74EA120003FD6C /* Ingredient+CoreDataClass.swift */,
+				BC6FFD832A74D9410003FD6C /* RecipeApp.xcdatamodeld */,
+				BC6FFDAC2A74E63A0003FD6C /* DataController.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,9 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC6FFD662A72E2370003FD6C /* LaunchScreen.storyboard in Resources */,
 				BC6FFD632A72E2370003FD6C /* Assets.xcassets in Resources */,
-				BC6FFD612A72E2360003FD6C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,32 +202,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC6FFD5E2A72E2360003FD6C /* ViewController.swift in Sources */,
 				BC6FFD5A2A72E2360003FD6C /* AppDelegate.swift in Sources */,
+				BC6FFDC82A7616260003FD6C /* TestPageVC.swift in Sources */,
+				BC6FFDB82A74EA120003FD6C /* Recipe+CoreDataClass.swift in Sources */,
+				BC6FFD802A7325240003FD6C /* TagView.swift in Sources */,
+				BC6FFDC12A75F3DB0003FD6C /* RecipeTableViewCell.swift in Sources */,
+				BC6FFD702A72FAD10003FD6C /* HomeVC.swift in Sources */,
+				BC6FFDBA2A74EA120003FD6C /* RecipeIngredient+CoreDataClass.swift in Sources */,
+				BC6FFD852A74D9410003FD6C /* RecipeApp.xcdatamodeld in Sources */,
 				BC6FFD5C2A72E2360003FD6C /* SceneDelegate.swift in Sources */,
+				BC6FFD742A72FF770003FD6C /* TabBarController.swift in Sources */,
+				BC6FFD6E2A72E2810003FD6C /* LoginVC.swift in Sources */,
+				BC6FFD822A7325380003FD6C /* IngredientView.swift in Sources */,
+				BC6FFD7E2A7324BE0003FD6C /* DetailVC.swift in Sources */,
+				BC6FFDB62A74EA120003FD6C /* Category+CoreDataClass.swift in Sources */,
+				BC6FFD722A72FC3B0003FD6C /* SettingsVC.swift in Sources */,
+				BC6FFD7C2A731D720003FD6C /* InputFieldView.swift in Sources */,
+				BC6FFDAD2A74E63A0003FD6C /* DataController.swift in Sources */,
+				BC6FFDBC2A74EA120003FD6C /* Ingredient+CoreDataClass.swift in Sources */,
+				BC6FFD7A2A73084E0003FD6C /* AERecipeVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		BC6FFD5F2A72E2360003FD6C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BC6FFD602A72E2360003FD6C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		BC6FFD642A72E2370003FD6C /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BC6FFD652A72E2370003FD6C /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		BC6FFD682A72E2370003FD6C /* Debug */ = {
@@ -291,7 +352,6 @@
 				INFOPLIST_FILE = Project1_RecipeApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -318,7 +378,6 @@
 				INFOPLIST_FILE = Project1_RecipeApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -356,6 +415,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BC6FFD832A74D9410003FD6C /* RecipeApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BC6FFD842A74D9410003FD6C /* RecipeApp.xcdatamodel */,
+			);
+			currentVersion = BC6FFD842A74D9410003FD6C /* RecipeApp.xcdatamodel */;
+			path = RecipeApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BC6FFD4E2A72E2360003FD6C /* Project object */;
 }
