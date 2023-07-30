@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -85,7 +86,15 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func fetchRecipe() {
         //var request =
         do {
-            self.items = try context.fetch(Recipe.fetchRequest())//request)
+            
+            let request = Recipe.fetchRequest() as NSFetchRequest<Recipe>
+            
+            //TODO: combine the tags filtering
+            
+            //let pred = NSPredicate(format: "name CONTAINS '123'")
+            //request.predicate = pred
+            
+            self.items = try context.fetch(request)//request)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -113,6 +122,8 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
         let recipe = self.items?[indexPath.row]
         cell.textLabel?.text = recipe?.name
+        //cell.textLabel?.text = recipe?.instructions
+        
         return cell
     }
     
@@ -125,9 +136,9 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         guard let selectedRecipe = self.items?[indexPath.row] else {return}
         
         
-        let detailVC = TestPageVC()
-        //let detailVC = DetailVC()
-        //detailVC.recipe = selectedRecipe
+        //let detailVC = TestPageVC()
+        let detailVC = DetailVC()
+        detailVC.recipe = selectedRecipe
         
         navigationController?.pushViewController(detailVC, animated: true)
         // This can be used to navigate to a new screen with details about the selected recipe

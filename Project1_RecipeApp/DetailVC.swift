@@ -13,17 +13,17 @@ class DetailVC: UIViewController {
     var recipe: Recipe?
     
     // UI Components
-    let image = UIImage(systemName: "home")
+    let image = UIImage(systemName: "sun.max.circle.fill")
     var imageView = UIImageView()
+    
     let nameLabel = UILabel()
     let categoriesLabel = UILabel()
-
-    let des = UITextView()
+    let des = UILabel()
+    
     let riLabel = UILabel()
+    let riTextView = UILabel()
     
-    let riTextView = UITextView()
-    
-    let insTextView = UITextView()
+    let insTextView = UILabel()
     let insLabel = UILabel()
     
     
@@ -35,11 +35,14 @@ class DetailVC: UIViewController {
     }
     
     func setupUI() {
+        
         configureImage()
         configureNameLabel()
         configureDesText()
+        
         configureRILabel()
         configureRItext()
+        
         configureInsLabel()
         configureInstext()
     }
@@ -61,9 +64,11 @@ class DetailVC: UIViewController {
 
     func configureNameLabel() {
         // Add label to the view
-        nameLabel.numberOfLines = 0
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
+        nameLabel.numberOfLines = 0
+        nameLabel.textAlignment = NSTextAlignment.center
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
 
         // Set up constraints
         NSLayoutConstraint.activate([
@@ -75,10 +80,10 @@ class DetailVC: UIViewController {
 
     func configureDesText() {
         // Add textView to the view
-        des.isEditable = false
-        des.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(des)
-
+        des.translatesAutoresizingMaskIntoConstraints = false
+        des.backgroundColor = .systemBrown
+        
         // Set up constraints
         NSLayoutConstraint.activate([
             des.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
@@ -89,10 +94,12 @@ class DetailVC: UIViewController {
     
     func configureRILabel() {
         // Add label to the view
+        view.addSubview(riLabel)
         riLabel.numberOfLines = 0
         riLabel.text = "Recipe Ingredients"
+        print("made this R I label")
+        riLabel.backgroundColor = .white
         riLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(categoriesLabel)
 
         // Set up constraints
         NSLayoutConstraint.activate([
@@ -104,22 +111,26 @@ class DetailVC: UIViewController {
 
     func configureRItext() {
         // Assuming that you have a UITextView for RI text
-        riTextView.isEditable = false
         riTextView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(riTextView)
-        
+        riTextView.backgroundColor = .systemBrown
+        riTextView.text = "Ri1\nRi2\nRi3"
+        riTextView.numberOfLines = 0
+
         // Set up constraints
         NSLayoutConstraint.activate([
-            riTextView.topAnchor.constraint(equalTo: categoriesLabel.bottomAnchor, constant: 20),
+            riTextView.topAnchor.constraint(equalTo: riLabel.bottomAnchor, constant: 20),
             riTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             riTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
 
     func configureInsLabel() {
-        // Assuming that you have a UILabel for instruction label
+//        // Assuming that you have a UILabel for instruction label
         insLabel.numberOfLines = 0
         insLabel.translatesAutoresizingMaskIntoConstraints = false
+        insLabel.text = "Instructions"
+        insLabel.backgroundColor = .white
         view.addSubview(insLabel)
 
         // Set up constraints
@@ -132,8 +143,8 @@ class DetailVC: UIViewController {
 
     func configureInstext() {
         // Assuming that you have a UITextView for instruction text
-        insTextView.isEditable = false
         insTextView.translatesAutoresizingMaskIntoConstraints = false
+        insTextView.backgroundColor = .systemBrown
         view.addSubview(insTextView)
 
         // Set up constraints
@@ -141,7 +152,6 @@ class DetailVC: UIViewController {
             insTextView.topAnchor.constraint(equalTo: insLabel.bottomAnchor, constant: 20),
             insTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             insTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            insTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
     
@@ -149,6 +159,9 @@ class DetailVC: UIViewController {
     func populateData() {
         guard let recipe = recipe else { return }
         nameLabel.text = recipe.name
+        des.text = recipe.descriptions
+        insTextView.text = recipe.instructions
+        
         // Assume that the categories are stored in a String array in your Recipe model
         //categoriesLabel.text = recipe.category.joined(separator: ", ")
     }

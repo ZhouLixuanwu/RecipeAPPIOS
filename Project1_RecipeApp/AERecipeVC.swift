@@ -16,7 +16,7 @@ class AERecipeVC: UIViewController {
     let recipeNameField = InputFieldView()
     let recipeDescription = InputFieldView()
     let recipeInstruction = InputFieldView()
-    let saveButton = UIButton()
+    //let saveButton = UIButton()
     let testbutton = UIButton()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -27,7 +27,7 @@ class AERecipeVC: UIViewController {
     }
     
     func configureUI() {
-        setupSaveButton()
+        //setupSaveButton()
         setupName()
         setupDescription()
         setupInstruction()
@@ -63,29 +63,28 @@ class AERecipeVC: UIViewController {
         catch {
             //
         }
-        
         //refresh the table view
         onRecipeSave?()
     }
     
     
-    func setupSaveButton() {
-        view.addSubview(saveButton)
-        saveButton.setTitle("Save", for: .normal)
-        saveButton.tintColor = .systemBlue
-        saveButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.addTarget(self, action: #selector(saveRecipe), for: .touchUpInside)
-        
-        //probably this would be better??
-        //nav.viewControllers.first?.navigationItem.rightBarButtonItem
-        
-        NSLayoutConstraint.activate([
-            saveButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 65),
-            saveButton.widthAnchor.constraint(equalToConstant: 70),
-            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
-            saveButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
-    }
+//    func setupSaveButton() {
+//        view.addSubview(saveButton)
+//        saveButton.setTitle("Save", for: .normal)
+//        saveButton.tintColor = .systemBlue
+//        saveButton.translatesAutoresizingMaskIntoConstraints = false
+//        saveButton.addTarget(self, action: #selector(saveRecipe), for: .touchUpInside)
+//
+//        //probably this would be better??
+//        //nav.viewControllers.first?.navigationItem.rightBarButtonItem
+//
+//        NSLayoutConstraint.activate([
+//            saveButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 65),
+//            saveButton.widthAnchor.constraint(equalToConstant: 70),
+//            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
+//            saveButton.heightAnchor.constraint(equalToConstant: 30)
+//        ])
+//    }
     
     
     func setupName() {
@@ -96,7 +95,7 @@ class AERecipeVC: UIViewController {
         NSLayoutConstraint.activate([
             recipeNameField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             recipeNameField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            recipeNameField.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: 30),
+            recipeNameField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
             recipeNameField.heightAnchor.constraint(equalToConstant: 50)
         ])
         

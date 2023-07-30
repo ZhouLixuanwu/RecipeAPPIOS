@@ -68,6 +68,7 @@
 		BC6FFD4D2A72E2360003FD6C = {
 			isa = PBXGroup;
 			children = (
+				BC6FFDC92A762F290003FD6C /* Test */,
 				BC6FFDAB2A74E61E0003FD6C /* Model */,
 				BC6FFD582A72E2360003FD6C /* Project1_RecipeApp */,
 				BC6FFD572A72E2360003FD6C /* Products */,
@@ -89,7 +90,6 @@
 				BC6FFD6F2A72FAD10003FD6C /* HomeVC.swift */,
 				BC6FFD7D2A7324BE0003FD6C /* DetailVC.swift */,
 				BC6FFD792A73084E0003FD6C /* AERecipeVC.swift */,
-				BC6FFDC72A7616260003FD6C /* TestPageVC.swift */,
 				BC6FFD712A72FC3B0003FD6C /* SettingsVC.swift */,
 				BC6FFD772A72FFC00003FD6C /* UI */,
 				BC6FFD782A72FFE50003FD6C /* Supportings */,
@@ -128,9 +128,17 @@
 				BC6FFDB22A74EA120003FD6C /* RecipeIngredient+CoreDataClass.swift */,
 				BC6FFDB42A74EA120003FD6C /* Ingredient+CoreDataClass.swift */,
 				BC6FFD832A74D9410003FD6C /* RecipeApp.xcdatamodeld */,
-				BC6FFDAC2A74E63A0003FD6C /* DataController.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		BC6FFDC92A762F290003FD6C /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				BC6FFDAC2A74E63A0003FD6C /* DataController.swift */,
+				BC6FFDC72A7616260003FD6C /* TestPageVC.swift */,
+			);
+			path = Test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
