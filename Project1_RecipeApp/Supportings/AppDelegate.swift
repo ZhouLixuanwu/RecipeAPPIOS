@@ -15,11 +15,139 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        //addCategories()
+        deleteAllRecipes()
+        deleteAllCategories()
+        addCategories()
+        addRecipe()
         return true
     }
+    
+    func addCategories() {
+        let context = persistentContainer.viewContext
+        let categoriesToAdd = ["breakfast","lunch","dinner","drink","special"]
 
+        for cate in categoriesToAdd {
+            let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "name == %@", cate)
+            
+            do {
+                let existingCategories = try context.fetch(fetchRequest)
+                
+                if existingCategories.isEmpty {
+                    let newCategory = Category(context: context)
+                    newCategory.name = cate
+                }
+            }
+            
+            catch {
+                print("Failed to fetch category \(cate): \(error)")
+            }
+        }
+        
+        do {
+            try context.save()
+            print("Categories created and saved")
+        }
+        catch {
+            print("Failed to save categories: \(error)")
+        }
+    }
+    
+    func deleteAllCategories() {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Category.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try context.execute(deleteRequest)
+            try context.save()
+        } catch {
+            print("Failed to delete all categories: \(error)")
+        }
+    }
+
+    
+    func addRecipe() {
+        let context = persistentContainer.viewContext
+
+        // Creating Recipe 1
+        let recipe1 = Recipe(context: context)
+        recipe1.name = "Recipe1"
+        recipe1.instructions = "Instructions for Recipe 1"
+
+        // Assigning categories to Recipe 1
+        let breakfastCategory = fetchCategory(named: "breakfast")
+        let lunchCategory = fetchCategory(named: "lunch")
+        
+        //MARK: I set it to breakfast and it got missing?? Why???
+
+        if let breakfastCategory = breakfastCategory {
+            recipe1.addToRecipeCategory(breakfastCategory)
+            print("1 add brebreakak")
+        }
+        if let lunchCategory = lunchCategory {
+            recipe1.addToRecipeCategory(lunchCategory)
+            print("1 add lunch")
+        }
+
+        // Creating Recipe 2
+        let recipe2 = Recipe(context: context)
+        recipe2.name = "Recipe2"
+        recipe2.instructions = "Instructions for Recipe 2"
+
+        // Assigning categories to Recipe 2
+        let dinnerCategory = fetchCategory(named: "dinner")
+        let specialCategory = fetchCategory(named: "special")
+
+        if let dinnerCategory = dinnerCategory {
+            recipe2.addToRecipeCategory(dinnerCategory)
+        }
+        if let specialCategory = specialCategory {
+            recipe2.addToRecipeCategory(specialCategory)
+        }
+
+        do {
+            try context.save()
+            print("Recipes created and saved")
+        }
+        catch {
+            print("Failed to save recipes: \(error)")
+        }
+    }
+
+    func deleteAllRecipes() {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Recipe.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try context.execute(deleteRequest)
+            try context.save()
+        } catch {
+            print("Failed to delete all recipes: \(error)")
+        }
+    }
+
+    // Helper method to fetch a category by name
+    func fetchCategory(named: String) -> Category? {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", named)
+        
+        do {
+            let existingCategories = try context.fetch(fetchRequest)
+            
+            return existingCategories.first
+        } catch {
+            print("Failed to fetch category \(named): \(error)")
+            return nil
+        }
+    }
+    
+    
+    
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

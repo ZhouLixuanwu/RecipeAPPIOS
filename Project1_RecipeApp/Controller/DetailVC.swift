@@ -7,14 +7,18 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class DetailVC: UIViewController {
     
     var recipe: Recipe?
+    var categories: [Category]?
     
     // UI Components
     let image = UIImage(systemName: "sun.max.circle.fill")
     var imageView = UIImageView()
+    
+    var tagView = TagView()
     
     let nameLabel = UILabel()
     let categoriesLabel = UILabel()
@@ -38,6 +42,9 @@ class DetailVC: UIViewController {
         
         configureImage()
         configureNameLabel()
+        
+        configureTagView()
+        
         configureDesText()
         
         configureRILabel()
@@ -77,7 +84,20 @@ class DetailVC: UIViewController {
             nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
-
+    
+    func configureTagView() {
+        tagView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tagView)
+        
+        NSLayoutConstraint.activate([
+            tagView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
+            tagView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            tagView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            tagView.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    
     func configureDesText() {
         // Add textView to the view
         view.addSubview(des)
@@ -86,7 +106,7 @@ class DetailVC: UIViewController {
         
         // Set up constraints
         NSLayoutConstraint.activate([
-            des.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
+            des.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 20),
             des.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             des.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
@@ -97,7 +117,7 @@ class DetailVC: UIViewController {
         view.addSubview(riLabel)
         riLabel.numberOfLines = 0
         riLabel.text = "Recipe Ingredients"
-        print("made this R I label")
+        //print("made this R I label")
         riLabel.backgroundColor = .white
         riLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -161,6 +181,10 @@ class DetailVC: UIViewController {
         nameLabel.text = recipe.name
         des.text = recipe.descriptions
         insTextView.text = recipe.instructions
+        
+        if let categories = recipe.recipeCategory?.allObjects as? [Category] {
+            tagView.setCategories(categories)
+        }
         
         // Assume that the categories are stored in a String array in your Recipe model
         //categoriesLabel.text = recipe.category.joined(separator: ", ")

@@ -23,8 +23,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        //window?.rootViewController = TabBarController()
-        window?.rootViewController = LoginVC()
+        
+        let userDefaults = UserDefaultsData()
+        userDefaults.logout()
+        let loggedInBool = userDefaults.isLoggedIn()
+        if (loggedInBool == false) {
+            let loginVC = LoginVC()
+            loginVC.userDefaults = userDefaults
+            window?.rootViewController = loginVC
+            
+        } else {
+            let tabbarVC = TabBarController(userDefaults)
+            print("SceneDelegate userDefaults: \(userDefaults)")
+            print(tabbarVC.userDefaults)
+            window?.rootViewController = tabbarVC
+            //window?.rootViewController = TabBarController()
+        }
         window?.makeKeyAndVisible()
     }
 

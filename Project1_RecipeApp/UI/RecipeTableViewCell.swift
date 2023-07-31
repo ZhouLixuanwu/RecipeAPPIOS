@@ -21,20 +21,26 @@ class RecipeTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    let recipeNameLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 18)
+        return label
+    }()
     
     let favoriteButton : UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        
+        button.setTitle("fav", for: .normal)
+        button.backgroundColor = .gray
         //configure
         return  button
     }()
     
-    let categoriesLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        //
-        return label
+    let cateTagView: TagView = {
+        let cateTag = TagView()
+        cateTag.translatesAutoresizingMaskIntoConstraints = false
+        return cateTag
     }()
     
     override func awakeFromNib() {
@@ -53,19 +59,28 @@ class RecipeTableViewCell: UITableViewCell {
         
         contentView.addSubview(cellImageView)
         contentView.addSubview(favoriteButton)
-        contentView.addSubview(categoriesLabel)
-        //TODO: constrains needed to be added
+        contentView.addSubview(recipeNameLabel)
+        contentView.addSubview(cateTagView)
         
         NSLayoutConstraint.activate([
             cellImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            cellImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            cellImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             cellImageView.heightAnchor.constraint(equalToConstant: 100),
             cellImageView.widthAnchor.constraint(equalToConstant: 100),
             
-            favoriteButton.leadingAnchor.constraint(equalTo: cellImageView.trailingAnchor, constant: 16),
-            favoriteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 100),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 100)
+            recipeNameLabel.heightAnchor.constraint(equalToConstant: 20),
+            recipeNameLabel.topAnchor.constraint(equalTo: cellImageView.bottomAnchor, constant: 20),
+            recipeNameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            cateTagView.topAnchor.constraint(equalTo: recipeNameLabel.bottomAnchor, constant: 10),
+            cateTagView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            cateTagView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            cateTagView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            favoriteButton.topAnchor.constraint(equalTo: cellImageView.bottomAnchor, constant: 16),
+            favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 30)
             
         ])
     }

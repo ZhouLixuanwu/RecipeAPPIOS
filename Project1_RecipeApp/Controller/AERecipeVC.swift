@@ -7,22 +7,29 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class AERecipeVC: UIViewController {
     
     var onRecipeSave: (() -> Void)?
-    // for save the recipe data when go back to home page
+    var onCategoryUpdate: (() -> Void)?
     
+    var allCategories: [Category] = []
+    
+    // for save the recipe data when go back to home page
+    var tagView = TagView()
     let recipeNameField = InputFieldView()
     let recipeDescription = InputFieldView()
     let recipeInstruction = InputFieldView()
     //let saveButton = UIButton()
     let testbutton = UIButton()
+    let addButton = UIButton()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemMint
+        fetchAllCategories()
         configureUI()
     }
     
@@ -30,8 +37,10 @@ class AERecipeVC: UIViewController {
         //setupSaveButton()
         setupName()
         setupDescription()
+        setupTagView()
         setupInstruction()
         setuptestButton()
+        setupAddButton()
     }
     
     func setuptestButton() {
@@ -57,6 +66,11 @@ class AERecipeVC: UIViewController {
         newRecipe.instructions = recipeInstruction.textField.text
         
         //save to coreData
+        let selectedCategories = tagView.selectedCategories
+        for category in selectedCategories {
+            newRecipe.addToRecipeCategory(category)
+        }
+        
         do {
             try self.context.save()
         }
@@ -66,26 +80,6 @@ class AERecipeVC: UIViewController {
         //refresh the table view
         onRecipeSave?()
     }
-    
-    
-//    func setupSaveButton() {
-//        view.addSubview(saveButton)
-//        saveButton.setTitle("Save", for: .normal)
-//        saveButton.tintColor = .systemBlue
-//        saveButton.translatesAutoresizingMaskIntoConstraints = false
-//        saveButton.addTarget(self, action: #selector(saveRecipe), for: .touchUpInside)
-//
-//        //probably this would be better??
-//        //nav.viewControllers.first?.navigationItem.rightBarButtonItem
-//
-//        NSLayoutConstraint.activate([
-//            saveButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 65),
-//            saveButton.widthAnchor.constraint(equalToConstant: 70),
-//            saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
-//            saveButton.heightAnchor.constraint(equalToConstant: 30)
-//        ])
-//    }
-    
     
     func setupName() {
         view.addSubview(recipeNameField)
@@ -114,6 +108,21 @@ class AERecipeVC: UIViewController {
         ])
     }
     
+    func setupTagView() {
+        tagView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tagView)
+        
+        NSLayoutConstraint.activate([
+            tagView.topAnchor.constraint(equalTo: recipeDescription.bottomAnchor, constant: 20),
+            tagView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            tagView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            tagView.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        tagView.setCategories(allCategories)
+        
+    }
+    
     func setupInstruction() {
         view.addSubview(recipeInstruction)
         recipeInstruction.label.text = "Instruction"
@@ -122,20 +131,71 @@ class AERecipeVC: UIViewController {
         NSLayoutConstraint.activate([
             recipeInstruction.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             recipeInstruction.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            recipeInstruction.topAnchor.constraint(equalTo: recipeDescription.bottomAnchor, constant: 30),
+            recipeInstruction.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100),
             recipeInstruction.heightAnchor.constraint(equalToConstant: 80)
         ])
     }
     
+    func setupAddButton() {
+        view.addSubview(addButton)
+        addButton.setTitle("Add", for: .normal)
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.addTarget(self, action: #selector(addoneCategory), for: .touchUpInside)
+
+        NSLayoutConstraint.activate([
+            addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            addButton.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 30),
+            addButton.widthAnchor.constraint(equalToConstant: 40),
+            addButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    @objc func addoneCategory() {
+        let cateToAdd = "xxxx"
+
+        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", cateToAdd)
+            
+        do {
+            let existingCategories = try context.fetch(fetchRequest)
+            
+            if existingCategories.isEmpty {
+                let newCategory = Category(context: context)
+                newCategory.name = cateToAdd
+            }
+        }
+        catch {
+            print("Failed to fetch category \(cateToAdd): \(error)")
+        }
+        
+        do {
+            try context.save()
+            self.onCategoryUpdate?()
+            
+            fetchAllCategories()
+            tagView.setCategories(allCategories)
+            print("Categories created and saved")
+        }
+        catch {
+            print("Failed to save categories: \(error)")
+        }
+    }
     
     @objc func saveRecipe() {
         //recipeNameField.textField
         
-        print("pressed Save")
+        //print("pressed Save")
         let newRecipe = Recipe(context: self.context)
         newRecipe.name = recipeNameField.textField.text
         newRecipe.descriptions = recipeDescription.textField.text
         newRecipe.instructions = recipeInstruction.textField.text
+        
+        
+        // associate selected categories with the new recipe
+        let selectedCategories = tagView.selectedCategories
+        for category in selectedCategories {
+            newRecipe.addToRecipeCategory(category)
+        }
         
         //save to coreData
         do {
@@ -144,9 +204,21 @@ class AERecipeVC: UIViewController {
         catch {
             //
         }
-        
+
         //refresh the table view
         onRecipeSave?()
+    }
+    
+    func fetchAllCategories() {
+        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
+        print("tired")
+        do {
+            allCategories = try context.fetch(fetchRequest)
+            //setupTagView()
+        }
+        catch {
+            //
+        }
     }
 
 }

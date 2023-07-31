@@ -10,6 +10,7 @@ import UIKit
 
 class SettingsVC: UIViewController {
     
+    var userDefaults: UserDefaultsData!
     let LogoutButton = UIButton()
     
     override func viewDidLoad() {
@@ -37,12 +38,12 @@ class SettingsVC: UIViewController {
     }
     
     @objc func pressLogout() {
-        let Loginvc = LoginVC()
+        print("Clicked logout button.")
+        userDefaults.logout()
         
-        //save data in keychain
-        
-        
-        SceneDelegate.shared.window?.rootViewController = Loginvc
+        let loginVC = LoginVC()
+        loginVC.userDefaults = userDefaults
+        SceneDelegate.shared.window?.rootViewController = loginVC
         SceneDelegate.shared.window?.makeKeyAndVisible()
     }
 
