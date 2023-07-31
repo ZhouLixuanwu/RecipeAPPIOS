@@ -10,6 +10,8 @@ import UIKit
 
 class CollectionCell: UICollectionViewCell {
     
+    //MARK: UI To Deal with the Categories Selection
+    
     static let identifier = "CustomCollectionViewCell"
     
     lazy var button: UIButton = {

@@ -12,6 +12,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
+    //MARK: Add recipe and categories data
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -21,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         addRecipe()
         return true
     }
+    
     
     func addCategories() {
         let context = persistentContainer.viewContext

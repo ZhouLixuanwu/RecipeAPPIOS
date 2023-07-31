@@ -11,12 +11,11 @@ import CoreData
 
 class AERecipeVC: UIViewController {
     
+    // for saving the recipe data and category status when going back to home page
     var onRecipeSave: (() -> Void)?
     var onCategoryUpdate: (() -> Void)?
-    
     var allCategories: [Category] = []
     
-    // for save the recipe data when go back to home page
     var tagView = TagView()
     let recipeNameField = InputFieldView()
     let recipeDescription = InputFieldView()

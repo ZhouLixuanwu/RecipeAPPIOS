@@ -10,6 +10,8 @@ import CoreData
 
 class TagView: UIView {
     
+    //MARK: Class for a reused view, a group of buttons showing the categories
+    
     // an array to keep references to the button for each category
     private var categoryButtons: [UIButton] = []
     var selectedCategories: [Category] = []

@@ -15,6 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return UIApplication.shared.connectedScenes.first!.delegate as! SceneDelegate
         }
 
+    
+    //MARK: Dealing with login and TabBarController
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.

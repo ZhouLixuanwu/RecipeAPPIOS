@@ -8,6 +8,9 @@
 import UIKit
 
 class InputFieldView: UIView {
+    
+    //MARK: Add a label and a textField to gother as a reused View
+    
     let label: UILabel = {
         let lbl = UILabel()
         lbl.textColor = .black

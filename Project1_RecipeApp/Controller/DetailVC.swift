@@ -30,6 +30,7 @@ class DetailVC: UIViewController {
     let insTextView = UILabel()
     let insLabel = UILabel()
     
+    let favButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,8 @@ class DetailVC: UIViewController {
         
         configureInsLabel()
         configureInstext()
+        
+        setupFavButton()
     }
     
     func configureImage() {
@@ -175,6 +178,46 @@ class DetailVC: UIViewController {
         ])
     }
     
+    func setupFavButton() {
+        view.addSubview(favButton)
+        favButton.translatesAutoresizingMaskIntoConstraints = false
+        let heartImage = UIImage(systemName: "heart")
+        favButton.setImage(heartImage, for: .normal)
+        let filledHeartImage = UIImage(systemName: "heart.fill")
+        favButton.setImage(filledHeartImage, for: .selected)
+        favButton.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
+        // Set button's initial color to gray
+        favButton.tintColor = .gray
+        
+        NSLayoutConstraint.activate([
+            favButton.heightAnchor.constraint(equalToConstant: 80),
+            favButton.widthAnchor.constraint(equalToConstant: 80),
+            favButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            favButton.topAnchor.constraint(equalTo: insTextView.bottomAnchor, constant: 30)
+        ])
+    }
+    
+    @objc func favoriteButtonTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        //sender.tintColor = sender.isSelected ? .red : .gray
+        // Retrieve the array of favorited recipe IDs
+        var favoriteRecipeIDs = UserDefaults.standard.array(forKey: "favoriteRecipeIDs") as? [String] ?? []
+        if let recipeId = recipe?.name {
+            if sender.isSelected {
+                favoriteRecipeIDs.append(recipeId)
+                sender.tintColor = .red
+            } else {
+                favoriteRecipeIDs.removeAll(where: { $0 == recipeId })
+                sender.tintColor = .gray
+            }
+        }
+
+        // Save the updated array back to UserDefaults
+        UserDefaults.standard.setValue(favoriteRecipeIDs, forKey: "favoriteRecipeIDs")
+            
+        // Post a notification to let other VCs know that the favorites list has been updated
+        NotificationCenter.default.post(name: Notification.Name("favoritesUpdated"), object: nil)
+    }
     
     func populateData() {
         guard let recipe = recipe else { return }

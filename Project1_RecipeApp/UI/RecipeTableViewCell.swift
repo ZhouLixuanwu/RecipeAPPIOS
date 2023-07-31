@@ -8,16 +8,16 @@
 import UIKit
 
 class RecipeTableViewCell: UITableViewCell {
-
     
     static let identifier = "CustomTableViewCell"
     
     let cellImageView: UIImageView = {
         let imageView = UIImageView()
+        let nameForImage = "square.and.arrow.up"
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         //configures
-        imageView.image = UIImage(systemName: "square.and.arrow.up")
+        imageView.image = UIImage(systemName: nameForImage)
         return imageView
     }()
     
@@ -31,9 +31,17 @@ class RecipeTableViewCell: UITableViewCell {
     let favoriteButton : UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("fav", for: .normal)
-        button.backgroundColor = .gray
+        
+        //button.setTitle("fav", for: .normal)
+        //button.backgroundColor = .gray
         //configure
+        let heartImage = UIImage(systemName: "heart")
+        button.setImage(heartImage, for: .normal)
+        let filledHeartImage = UIImage(systemName: "heart.fill")
+        button.setImage(filledHeartImage, for: .selected)
+        button.addTarget(self, action: #selector(favoriteButtonTapped(_:)), for: .touchUpInside)
+        // Set button's initial color to gray
+        button.tintColor = .gray
         return  button
     }()
     
@@ -42,6 +50,13 @@ class RecipeTableViewCell: UITableViewCell {
         cateTag.translatesAutoresizingMaskIntoConstraints = false
         return cateTag
     }()
+    
+    @objc func favoriteButtonTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        
+        // If the button is selected, change its color to red. If not, change its color back to gray
+        sender.tintColor = sender.isSelected ? .red : .gray
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -79,8 +94,8 @@ class RecipeTableViewCell: UITableViewCell {
             
             favoriteButton.topAnchor.constraint(equalTo: cellImageView.bottomAnchor, constant: 16),
             favoriteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            favoriteButton.heightAnchor.constraint(equalToConstant: 30),
-            favoriteButton.widthAnchor.constraint(equalToConstant: 30)
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40),
+            favoriteButton.widthAnchor.constraint(equalToConstant: 40)
             
         ])
     }

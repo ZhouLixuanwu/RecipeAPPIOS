@@ -28,6 +28,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemPink
+        NotificationCenter.default.addObserver(self, selector: #selector(favoritesUpdated), name: Notification.Name("favoritesUpdated"), object: nil)
         configureUI()
         //whatisRecipe()
     }
@@ -159,7 +160,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         }
     }
 
-    
+    //MARK: Fetch all updated Categories, after hitting "add" from AERecipeVC
     func fetchCategory() {
         do {
             let request = Category.fetchRequest() as NSFetchRequest<Category>
@@ -179,31 +180,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         }
     }
     
-//    func fetchRecipe() {
-//        //var request =
-//        do {
-//            let request = Recipe.fetchRequest() as NSFetchRequest<Recipe>
-//            //let pred = NSPredicate(format: "name CONTAINS '123'")
-//            //request.predicate = pred
-//
-//            if !selectedCategories.isEmpty {
-//                request.predicate = NSPredicate(format: "ANY recipeCategory.name IN %@", selectedCategories)
-//            }
-//
-//            let sort = NSSortDescriptor(key: "name", ascending: isAscendingOrder)
-//            request.sortDescriptors = [sort]
-//
-//            self.items = try context.fetch(request)//request)
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//            }
-//        }
-//        catch {
-//           //
-//        }
-//
-//    }
-    
+    //MARK: Fetch Recipe with query, combined with a compound predicate, filtering the Recipe has all the specified categories.
     func fetchRecipe() {
         do {
             let request = Recipe.fetchRequest() as NSFetchRequest<Recipe>
@@ -268,12 +245,13 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RecipeTableViewCell.identifier, for: indexPath) as? RecipeTableViewCell else {
             fatalError("The TableView could not dequeue a CustomTableViewCell in ViewController")
         }
-
+        
         let recipe = self.items?[indexPath.row]
         cell.recipeNameLabel.text = recipe?.name
 //        if let categories = recipe?.recipeCategory?.allObjects as? [Category] {
 //            cell.cateTagView.setCategories(categories)
 //        }
+        
         if let categories = recipe?.recipeCategory?.allObjects as? [Category] {
             cell.cateTagView.setCategories(categories)
 //            let categoryNames = categories.compactMap { $0.name as? String}
@@ -285,6 +263,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
                 }
             }
         }
+        
+        //MARK: favrite button updated
+        let favoriteRecipeIDs = UserDefaults.standard.array(forKey: "favoriteRecipeIDs") as? [String] ?? []
+        cell.favoriteButton.isSelected = favoriteRecipeIDs.contains((recipe?.name ?? "")!)
+        cell.favoriteButton.tintColor = cell.favoriteButton.isSelected ? .red : .gray
+        
         return cell
     }
     
@@ -323,9 +307,14 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     }
     
     
+    //MARK: Update the button's status when going back from DetailVC
+    @objc func favoritesUpdated() {
+        // When the favorites list is updated, reload the table view
+        tableView.reloadData()
+    }
     
     
-    //MARK: For test
+    //MARK: For testing
     func whatisRecipe() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
