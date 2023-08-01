@@ -15,19 +15,29 @@ class AERecipeVC: UIViewController {
     var onRecipeSave: (() -> Void)?
     var onCategoryUpdate: (() -> Void)?
     var allCategories: [Category] = []
+    var currentRecipe: Recipe?
+    var storedIngredients: [Ingredient] = []
     
     var tagView = TagView()
+    var scrollView = UIScrollView()
+    var ingredientsStackView = UIStackView()
+    
+    var newRecipeBeingAdded = Recipe()
+    
     let recipeNameField = InputFieldView()
     let recipeDescription = InputFieldView()
     let recipeInstruction = InputFieldView()
     //let saveButton = UIButton()
     let testbutton = UIButton()
     let addButton = UIButton()
+    let addIngButton = UIButton()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemMint
+        view.backgroundColor = .white
+        createNewRecipe()
+        
         fetchAllCategories()
         configureUI()
     }
@@ -40,13 +50,20 @@ class AERecipeVC: UIViewController {
         setupInstruction()
         setuptestButton()
         setupAddButton()
+        setupAddIngButton()
+        setupScrollView()
+    }
+    
+    func createNewRecipe() {
+        currentRecipe = Recipe(context: self.context)
     }
     
     func setuptestButton() {
         view.addSubview(testbutton)
-        testbutton.setTitle("test", for: .normal)
+        //testbutton.setTitle("test", for: .normal)
         testbutton.addTarget(self, action: #selector(testbuttonout), for: .touchUpInside)
         testbutton.setTitle("Save", for: .normal)
+        testbutton.setTitleColor(UIColor.black, for: .normal)
         
         testbutton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -59,7 +76,7 @@ class AERecipeVC: UIViewController {
     
     @objc func testbuttonout() {
         print("pressed Save")
-        let newRecipe = Recipe(context: self.context)
+        guard let newRecipe = currentRecipe else { return }
         newRecipe.name = recipeNameField.textField.text
         newRecipe.descriptions = recipeDescription.textField.text
         newRecipe.instructions = recipeInstruction.textField.text
@@ -137,16 +154,141 @@ class AERecipeVC: UIViewController {
     
     func setupAddButton() {
         view.addSubview(addButton)
-        addButton.setTitle("Add", for: .normal)
+        addButton.setTitle("Add Category", for: .normal)
         addButton.translatesAutoresizingMaskIntoConstraints = false
         addButton.addTarget(self, action: #selector(addoneCategory), for: .touchUpInside)
-
+        addButton.setTitleColor(UIColor.black, for: .normal)
         NSLayoutConstraint.activate([
             addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             addButton.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 30),
-            addButton.widthAnchor.constraint(equalToConstant: 40),
+            addButton.widthAnchor.constraint(equalToConstant: 140),
             addButton.heightAnchor.constraint(equalToConstant: 40)
         ])
+    }
+    
+    func setupScrollView() {
+
+        view.addSubview(scrollView)
+        scrollView.backgroundColor = .lightGray
+        
+        //ingredientsStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            scrollView.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 20),
+            scrollView.heightAnchor.constraint(equalToConstant: 100),
+        ])
+        
+        ingredientsStackView.axis = .vertical
+        ingredientsStackView.spacing = 10
+        
+        scrollView.addSubview(ingredientsStackView)
+        ingredientsStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            ingredientsStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            ingredientsStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            ingredientsStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            ingredientsStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+        ])
+    }
+    
+    func setupAddIngButton() {
+        view.addSubview(addIngButton)
+        addIngButton.setTitle("Add Ingredient", for: .normal)
+        addIngButton.translatesAutoresizingMaskIntoConstraints = false
+        addIngButton.addTarget(self, action: #selector(addoneIng), for: .touchUpInside)
+        addIngButton.setTitleColor(UIColor.black, for: .normal)
+        NSLayoutConstraint.activate([
+            addIngButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            addIngButton.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 30),
+            addIngButton.widthAnchor.constraint(equalToConstant: 140),
+            addIngButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+
+    @objc func addoneIng() {
+        // Create alert
+        let alert = UIAlertController(title: "Add Ingredient", message: "Please enter the category info", preferredStyle: .alert)
+        // Add text fields to alert
+        alert.addTextField { (textField) in
+            textField.placeholder = "Ingredient name"
+        }
+        alert.addTextField { (textField) in
+            textField.placeholder = "Ingredient quantity"
+        }
+        alert.addTextField { (textField) in
+            textField.placeholder = "Ingredient unit"
+        }
+        // Add "Cancel" button
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        // Add "Confirm" button
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { [weak self] (_) in
+            guard let ingredientName = alert.textFields![0].text,
+                  let ingredientQuantity = Double(alert.textFields![1].text ?? ""),
+                  let ingredientUnit = alert.textFields![2].text,
+                  let strongSelf = self,
+                  let selectedRecipe = strongSelf.currentRecipe else { return }
+
+            
+            let newIngredient = Ingredient(context: strongSelf.context)
+            newIngredient.name = ingredientName
+            newIngredient.unit = ingredientUnit
+            let newRecipeIngredient = RecipeIngredient(context: strongSelf.context)
+            newRecipeIngredient.quantity = ingredientQuantity
+            newRecipeIngredient.ingredient = newIngredient
+            newRecipeIngredient.whichRecipe = selectedRecipe
+
+            // Add the new recipe ingredient to the recipe
+            selectedRecipe.addToRecipeIngredient(newRecipeIngredient)
+
+            // Append the new ingredient to the storedIngredients array
+            strongSelf.storedIngredients.append(newIngredient)
+            
+//            for ingredient in self!.storedIngredients {
+//                let ingredientView = IngredientStackView()
+//                ingredientView.setupWith(ingredient: ingredient)
+//                //ingredientView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+//                self!.ingredientsStackView.addArrangedSubview(ingredientView)
+//                //print("added the ingredient \(ingredient.quantity)")
+//            }
+//            
+//            let ingredientView = IngredientStackView()
+//            ingredientView.setupWith(ingredient: newIngredient, serveNumber: 1)
+//            self?.ingredientsStackView.addArrangedSubview(ingredientView)
+//            self?.addIngredientView(ingredient: newIngredient)
+            
+            do {
+                try strongSelf.context.save()
+                print("Ingredient and RecipeIngredient created and saved")
+                strongSelf.addIngredientView(ingredient: newIngredient)
+            }
+            catch let error as NSError {
+                // Create alert to inform the user
+                let errorAlert = UIAlertController(title: "Save Failed", message: "Failed to save ingredient and recipe ingredient: \(error), \(error.userInfo)", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                strongSelf.present(errorAlert, animated: true, completion: nil)
+            }
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
+    
+    }
+
+    
+    func addIngredientView(ingredient: Ingredient) {
+        DispatchQueue.main.async {
+            let ingredientView = IngredientStackView()
+            ingredientView.setupWith(ingredient: ingredient, serveNumber: 1)
+            self.ingredientsStackView.addArrangedSubview(ingredientView)
+            
+            ingredientView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                ingredientView.leadingAnchor.constraint(equalTo: self.ingredientsStackView.leadingAnchor),
+                ingredientView.trailingAnchor.constraint(equalTo: self.ingredientsStackView.trailingAnchor),
+            ])
+        }
     }
     
     @objc func addoneCategory() {
@@ -172,7 +314,7 @@ class AERecipeVC: UIViewController {
                 // Use strongSelf instead of self
                 let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "name == %@", cateToAdd)
-            
+                
                 do {
                     let existingCategories = try strongSelf.context.fetch(fetchRequest)
 
@@ -205,20 +347,17 @@ class AERecipeVC: UIViewController {
     
     @objc func saveRecipe() {
         //recipeNameField.textField
-        
+        currentRecipe = Recipe(context: self.context)
         //print("pressed Save")
-        let newRecipe = Recipe(context: self.context)
+        guard let newRecipe = currentRecipe else { return }
         newRecipe.name = recipeNameField.textField.text
         newRecipe.descriptions = recipeDescription.textField.text
         newRecipe.instructions = recipeInstruction.textField.text
-        
-        
         // associate selected categories with the new recipe
         let selectedCategories = tagView.selectedCategories
         for category in selectedCategories {
             newRecipe.addToRecipeCategory(category)
         }
-        
         //save to coreData
         do {
             try self.context.save()
@@ -226,7 +365,6 @@ class AERecipeVC: UIViewController {
         catch {
             //
         }
-
         //refresh the table view
         onRecipeSave?()
     }

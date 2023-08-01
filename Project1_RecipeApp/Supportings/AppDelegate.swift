@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Creating ingredients and recipe ingredients for Recipe 1
         let ingredient1 = Ingredient(context: context)
         ingredient1.name = "Milk"
-        ingredient1.unit = "Cups"
+        ingredient1.unit = "mL"
         
         let recipeIngredient1 = RecipeIngredient(context: context)
         recipeIngredient1.quantity = 2.0
@@ -129,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let ingredient4 = Ingredient(context: context)
         ingredient4.name = "Salt"
-        ingredient4.unit = "Teaspoon"
+        ingredient4.unit = "Grams"
         
         let recipeIngredient4 = RecipeIngredient(context: context)
         recipeIngredient4.quantity = 0.5
@@ -172,7 +172,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Additional ingredients for Recipe 2
         let ingredient5 = Ingredient(context: context)
         ingredient5.name = "Pepper"
-        ingredient5.unit = "Teaspoon"
+        ingredient5.unit = "Grams"
 
         let recipeIngredient5 = RecipeIngredient(context: context)
         recipeIngredient5.quantity = 0.25
@@ -182,7 +182,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let ingredient6 = Ingredient(context: context)
         ingredient6.name = "Olive Oil"
-        ingredient6.unit = "Tablespoon"
+        ingredient6.unit = "mL"
 
         let recipeIngredient6 = RecipeIngredient(context: context)
         recipeIngredient6.quantity = 1.0

@@ -15,7 +15,7 @@ class DetailVC: UIViewController {
     var categories: [Category]?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // UI Components
-    let image = UIImage(systemName: "sun.max.circle.fill")
+    let image = UIImage(systemName: "square.and.arrow.up")
     var imageView = UIImageView()
     
     var tagView = TagView()
@@ -24,7 +24,8 @@ class DetailVC: UIViewController {
     let nameText = UITextField()
     let desText = UITextField()
     let riLabel = UILabel()
-    //let riText = UITextField()
+    let serveText = UITextField()
+    let serveButton = UIButton()
     let insLabel = UILabel()
     let insText = UITextField()
     
@@ -36,13 +37,12 @@ class DetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGreen
+        view.backgroundColor = .white
         setupUI()
         populateData()
     }
     
     func setupUI() {
-        
         configureImage()
         configureNameText()
         configureTagView()
@@ -52,7 +52,8 @@ class DetailVC: UIViewController {
         setupScrollView()
         configureInsLabel()
         configureInstext()
-        
+        configureServeText()
+        configureServeButton()
         setupFavButton()
         setupEditButton()
     }
@@ -92,7 +93,7 @@ class DetailVC: UIViewController {
 
         // Set up constraints
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             imageView.heightAnchor.constraint(equalToConstant: 200)
@@ -104,7 +105,7 @@ class DetailVC: UIViewController {
         view.addSubview(nameText)
         nameText.textAlignment = NSTextAlignment.center
         nameText.translatesAutoresizingMaskIntoConstraints = false
-        
+        nameText.backgroundColor = .systemBrown
 
         // Set up constraints
         NSLayoutConstraint.activate([
@@ -152,10 +153,63 @@ class DetailVC: UIViewController {
         NSLayoutConstraint.activate([
             riLabel.topAnchor.constraint(equalTo: desText.bottomAnchor, constant: 20),
             riLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            riLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            riLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -180)
         ])
     }
+    
+    func configureServeText() {
+        view.addSubview(serveText)
+        serveText.text = "1"
+        serveText.backgroundColor = .systemBrown
+        serveText.translatesAutoresizingMaskIntoConstraints = false
 
+        // Set up constraints
+        NSLayoutConstraint.activate([
+            serveText.topAnchor.constraint(equalTo: desText.bottomAnchor, constant: 20),
+            serveText.leadingAnchor.constraint(equalTo: riLabel.trailingAnchor, constant: 20),
+            serveText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80)
+        ])
+    }
+    
+    func configureServeButton() {
+        view.addSubview(serveButton)
+        serveButton.setTitle("change", for: .normal)
+        serveButton.backgroundColor = .systemBrown
+        serveButton.translatesAutoresizingMaskIntoConstraints = false
+        serveButton.addTarget(self, action: #selector(updateServe), for: .touchUpInside)
+        // Set up constraints
+        NSLayoutConstraint.activate([
+            serveButton.topAnchor.constraint(equalTo: desText.bottomAnchor, constant: 20),
+            serveButton.leadingAnchor.constraint(equalTo: serveText.trailingAnchor, constant: 5),
+            serveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            serveButton.bottomAnchor.constraint(equalTo: riLabel.bottomAnchor)
+        ])
+    }
+    
+    @objc func updateServe() {
+        for view in ingredientsStackView.arrangedSubviews {
+            ingredientsStackView.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        guard let recipe = recipe else { return }
+        //MARK: loop through each ingredient in the recipe
+        //MARK: create an IngredientStackView for each one, and add it to ingredientsStackView:
+        if let ingredients = recipe.recipeIngredient?.allObjects as? [RecipeIngredient] {
+            //ingredientsStackView.clearIngredients()
+            for ingredient in ingredients {
+                let ingredientView = IngredientStackView()
+                let numberofServeString: String? = serveText.text
+                let numberofServe = Double(numberofServeString!)!
+                ingredientView.setupWith(ingredient: ingredient.ingredient!, serveNumber: numberofServe)
+                //ingredientView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+                ingredientsStackView.addArrangedSubview(ingredientView)
+                //print("added the ingredient \(ingredient.quantity)")
+            }
+        }
+        //setupScrollView()
+    }
+    
+    
     func configureInsLabel() {
 //        // Assuming that you have a UILabel for instruction label
         insLabel.numberOfLines = 0
@@ -198,8 +252,8 @@ class DetailVC: UIViewController {
         favButton.tintColor = .gray
         
         NSLayoutConstraint.activate([
-            favButton.heightAnchor.constraint(equalToConstant: 60),
-            favButton.widthAnchor.constraint(equalToConstant: 60),
+            favButton.heightAnchor.constraint(equalToConstant: 30),
+            favButton.widthAnchor.constraint(equalToConstant: 30),
             favButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
             favButton.topAnchor.constraint(equalTo: insText.bottomAnchor, constant: 10)
         ])
@@ -232,9 +286,10 @@ class DetailVC: UIViewController {
         view.addSubview(editButton)
         editButton.translatesAutoresizingMaskIntoConstraints = false
         editButton.addTarget(self, action: #selector(editSaved), for: .touchUpInside)
-        editButton.setTitle("Edit Save", for: .normal)
+        editButton.setTitle("Save Changes", for: .normal)
+        editButton.backgroundColor = .black
         NSLayoutConstraint.activate([
-            editButton.heightAnchor.constraint(equalToConstant: 60),
+            editButton.heightAnchor.constraint(equalToConstant: 30),
             editButton.topAnchor.constraint(equalTo: insText.bottomAnchor, constant: 10),
             editButton.leadingAnchor.constraint(equalTo: favButton.trailingAnchor, constant: 40),
             editButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
@@ -286,24 +341,19 @@ class DetailVC: UIViewController {
             tagView.setCategories(categories)
         }
         
-        // Clear the ingredientsStackView first
-//        for view in ingredientsStackView.arrangedSubviews {
-//            ingredientsStackView.removeArrangedSubview(view)
-//            view.removeFromSuperview()
-//        }
-        
         //MARK: loop through each ingredient in the recipe
         //MARK: create an IngredientStackView for each one, and add it to ingredientsStackView:
         if let ingredients = recipe.recipeIngredient?.allObjects as? [RecipeIngredient] {
             //ingredientsStackView.clearIngredients()
             for ingredient in ingredients {
                 let ingredientView = IngredientStackView()
-                ingredientView.setupWith(ingredient: ingredient.ingredient!)
+                let numberofServeString: String? = serveText.text
+                let numberofServe = Double(numberofServeString!)!
+                ingredientView.setupWith(ingredient: ingredient.ingredient!, serveNumber: numberofServe)
                 //ingredientView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
                 ingredientsStackView.addArrangedSubview(ingredientView)
-                print("added the ingredient \(ingredient.quantity)")
+                //print("added the ingredient \(ingredient.quantity)")
             }
         }
-        //scrollView.layoutIfNeeded()
     }
 }

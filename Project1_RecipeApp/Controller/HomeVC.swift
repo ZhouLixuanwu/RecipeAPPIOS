@@ -12,7 +12,7 @@ import CoreData
 class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var isAscendingOrder = false
-    
+    let welcomeLabel = UILabel()
     let AEButton = UIButton()
     let tableView = UITableView()
     //var collectionView: UICollectionView()
@@ -42,7 +42,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     func configureUI() {
         tableView.dataSource = self
         tableView.delegate = self
-        
+        configureWelcomeLabel()
         configureLoginButton()
         configureTableView()
         configureCollectionView()
@@ -50,6 +50,23 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         fetchRecipe()
         fetchCategory()
     }
+    
+    func configureWelcomeLabel() {
+        view.addSubview(welcomeLabel)
+        welcomeLabel.text = "welcome, user 123"
+        //welcomeLabel.text = "welcome, user \(userDefault.keyChain.username[0])"
+        welcomeLabel.textAlignment = .center
+        welcomeLabel.backgroundColor = .systemGray
+        welcomeLabel.tintColor = .white
+        welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            welcomeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,  constant: 20),
+            welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,  constant: -20),
+        ])
+    }
+    
     
     func configureLoginButton() {
         view.addSubview(AEButton)
@@ -61,10 +78,10 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         AEButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            AEButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            AEButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 45),
             AEButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,  constant: 30),
             AEButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,  constant: -120),
-            AEButton.heightAnchor.constraint(equalToConstant: 50)
+            AEButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
@@ -105,7 +122,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: AEButton.bottomAnchor, constant: 20),
+            collectionView.topAnchor.constraint(equalTo: AEButton.bottomAnchor, constant: 10),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,  constant: 0),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,  constant: 0),
             collectionView.heightAnchor.constraint(equalToConstant: 60)
