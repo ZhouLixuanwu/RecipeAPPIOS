@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let recipe1 = Recipe(context: context)
         recipe1.name = "Recipe1"
         recipe1.instructions = "Instructions for Recipe 1"
-
+        recipe1.descriptions = "descriptions for Recipe 1"
         // Assigning categories to Recipe 1
         let breakfastCategory = fetchCategory(named: "breakfast")
         let lunchCategory = fetchCategory(named: "lunch")
@@ -96,7 +96,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let recipe2 = Recipe(context: context)
         recipe2.name = "Recipe2"
         recipe2.instructions = "Instructions for Recipe 2"
-
+        recipe2.descriptions = "descriptions for Recipe 2"
+        
         // Assigning categories to Recipe 2
         let dinnerCategory = fetchCategory(named: "dinner")
         let specialCategory = fetchCategory(named: "special")

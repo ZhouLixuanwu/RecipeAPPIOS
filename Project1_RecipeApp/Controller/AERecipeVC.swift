@@ -150,34 +150,57 @@ class AERecipeVC: UIViewController {
     }
     
     @objc func addoneCategory() {
-        let cateToAdd = "xxxx"
+        // Create alert
+        let alert = UIAlertController(title: "Add Category", message: "Please enter the category name", preferredStyle: .alert)
 
-        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name == %@", cateToAdd)
+        // Add text field to alert
+        alert.addTextField { (textField) in
+            textField.placeholder = "Category name"
+        }
+
+        // Add a "Cancel" button
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        // Add a "Confirm" button
+        alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { [weak self] (_) in
+            // Get the category name from the text field
+            let textField = alert.textFields![0]
+            if let cateToAdd = textField.text {
+                // Check if self is not nil
+                guard let strongSelf = self else { return }
+                
+                // Use strongSelf instead of self
+                let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "name == %@", cateToAdd)
             
-        do {
-            let existingCategories = try context.fetch(fetchRequest)
-            
-            if existingCategories.isEmpty {
-                let newCategory = Category(context: context)
-                newCategory.name = cateToAdd
+                do {
+                    let existingCategories = try strongSelf.context.fetch(fetchRequest)
+
+                    if existingCategories.isEmpty {
+                        let newCategory = Category(context: strongSelf.context)
+                        newCategory.name = cateToAdd
+                    }
+                }
+                catch {
+                    print("Failed to fetch category \(cateToAdd): \(error)")
+                }
+
+                do {
+                    try strongSelf.context.save()
+                    strongSelf.onCategoryUpdate?()
+
+                    strongSelf.fetchAllCategories()
+                    strongSelf.tagView.setCategories(strongSelf.allCategories)
+                    print("Categories created and saved")
+                }
+                catch {
+                    print("Failed to save categories: \(error)")
+                }
             }
-        }
-        catch {
-            print("Failed to fetch category \(cateToAdd): \(error)")
-        }
-        
-        do {
-            try context.save()
-            self.onCategoryUpdate?()
-            
-            fetchAllCategories()
-            tagView.setCategories(allCategories)
-            print("Categories created and saved")
-        }
-        catch {
-            print("Failed to save categories: \(error)")
-        }
+        }))
+
+        // Present the alert
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func saveRecipe() {

@@ -13,24 +13,23 @@ class DetailVC: UIViewController {
     
     var recipe: Recipe?
     var categories: [Category]?
-    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // UI Components
     let image = UIImage(systemName: "sun.max.circle.fill")
     var imageView = UIImageView()
     
     var tagView = TagView()
+    var scrollView: UIScrollView!
     
-    let nameLabel = UILabel()
-    let categoriesLabel = UILabel()
-    let des = UILabel()
-    
+    let nameText = UITextField()
+    let desText = UITextField()
     let riLabel = UILabel()
-    let riTextView = UILabel()
-    
-    let insTextView = UILabel()
+    //let riText = UITextField()
     let insLabel = UILabel()
+    let insText = UITextField()
     
     let favButton = UIButton()
+    let editButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,19 +41,31 @@ class DetailVC: UIViewController {
     func setupUI() {
         
         configureImage()
-        configureNameLabel()
-        
+        configureNameText()
         configureTagView()
         
         configureDesText()
-        
         configureRILabel()
-        configureRItext()
-        
+        setupScrollView()
         configureInsLabel()
         configureInstext()
         
         setupFavButton()
+        setupEditButton()
+    }
+    
+    func setupScrollView() {
+        scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        scrollView.backgroundColor = .lightGray
+        // Position and size the scroll view with constraints
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            scrollView.topAnchor.constraint(equalTo: riLabel.bottomAnchor, constant: 20),
+            scrollView.heightAnchor.constraint(equalToConstant: 100)
+        ])
     }
     
     func configureImage() {
@@ -72,19 +83,18 @@ class DetailVC: UIViewController {
         ])
     }
 
-    func configureNameLabel() {
+    func configureNameText() {
         // Add label to the view
-        view.addSubview(nameLabel)
-        nameLabel.numberOfLines = 0
-        nameLabel.textAlignment = NSTextAlignment.center
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(nameText)
+        nameText.textAlignment = NSTextAlignment.center
+        nameText.translatesAutoresizingMaskIntoConstraints = false
         
 
         // Set up constraints
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            nameText.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            nameText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            nameText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     
@@ -93,7 +103,7 @@ class DetailVC: UIViewController {
         view.addSubview(tagView)
         
         NSLayoutConstraint.activate([
-            tagView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
+            tagView.topAnchor.constraint(equalTo: nameText.bottomAnchor, constant: 20),
             tagView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             tagView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
             tagView.heightAnchor.constraint(equalToConstant: 40)
@@ -103,48 +113,30 @@ class DetailVC: UIViewController {
     
     func configureDesText() {
         // Add textView to the view
-        view.addSubview(des)
-        des.translatesAutoresizingMaskIntoConstraints = false
-        des.backgroundColor = .systemBrown
+        view.addSubview(desText)
+        desText.translatesAutoresizingMaskIntoConstraints = false
+        desText.backgroundColor = .systemBrown
         
         // Set up constraints
         NSLayoutConstraint.activate([
-            des.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 20),
-            des.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            des.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            desText.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 20),
+            desText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            desText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     
     func configureRILabel() {
         // Add label to the view
         view.addSubview(riLabel)
-        riLabel.numberOfLines = 0
         riLabel.text = "Recipe Ingredients"
-        //print("made this R I label")
         riLabel.backgroundColor = .white
         riLabel.translatesAutoresizingMaskIntoConstraints = false
 
         // Set up constraints
         NSLayoutConstraint.activate([
-            riLabel.topAnchor.constraint(equalTo: des.bottomAnchor, constant: 20),
+            riLabel.topAnchor.constraint(equalTo: desText.bottomAnchor, constant: 20),
             riLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             riLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
-    }
-
-    func configureRItext() {
-        // Assuming that you have a UITextView for RI text
-        riTextView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(riTextView)
-        riTextView.backgroundColor = .systemBrown
-        riTextView.text = "Ri1\nRi2\nRi3"
-        riTextView.numberOfLines = 0
-
-        // Set up constraints
-        NSLayoutConstraint.activate([
-            riTextView.topAnchor.constraint(equalTo: riLabel.bottomAnchor, constant: 20),
-            riTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            riTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
 
@@ -158,7 +150,7 @@ class DetailVC: UIViewController {
 
         // Set up constraints
         NSLayoutConstraint.activate([
-            insLabel.topAnchor.constraint(equalTo: riTextView.bottomAnchor, constant: 20),
+            insLabel.topAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 20),
             insLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             insLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
@@ -166,15 +158,15 @@ class DetailVC: UIViewController {
 
     func configureInstext() {
         // Assuming that you have a UITextView for instruction text
-        insTextView.translatesAutoresizingMaskIntoConstraints = false
-        insTextView.backgroundColor = .systemBrown
-        view.addSubview(insTextView)
+        insText.translatesAutoresizingMaskIntoConstraints = false
+        insText.backgroundColor = .systemBrown
+        view.addSubview(insText)
 
         // Set up constraints
         NSLayoutConstraint.activate([
-            insTextView.topAnchor.constraint(equalTo: insLabel.bottomAnchor, constant: 20),
-            insTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            insTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            insText.topAnchor.constraint(equalTo: insLabel.bottomAnchor, constant: 20),
+            insText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            insText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
         ])
     }
     
@@ -190,10 +182,10 @@ class DetailVC: UIViewController {
         favButton.tintColor = .gray
         
         NSLayoutConstraint.activate([
-            favButton.heightAnchor.constraint(equalToConstant: 80),
-            favButton.widthAnchor.constraint(equalToConstant: 80),
-            favButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            favButton.topAnchor.constraint(equalTo: insTextView.bottomAnchor, constant: 30)
+            favButton.heightAnchor.constraint(equalToConstant: 60),
+            favButton.widthAnchor.constraint(equalToConstant: 60),
+            favButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
+            favButton.topAnchor.constraint(equalTo: insText.bottomAnchor, constant: 10)
         ])
     }
     
@@ -219,17 +211,64 @@ class DetailVC: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("favoritesUpdated"), object: nil)
     }
     
+    
+    func setupEditButton() {
+        view.addSubview(editButton)
+        editButton.translatesAutoresizingMaskIntoConstraints = false
+        editButton.addTarget(self, action: #selector(editSaved), for: .touchUpInside)
+        editButton.setTitle("Edit Save", for: .normal)
+        NSLayoutConstraint.activate([
+            editButton.heightAnchor.constraint(equalToConstant: 60),
+            editButton.topAnchor.constraint(equalTo: insText.bottomAnchor, constant: 10),
+            editButton.leadingAnchor.constraint(equalTo: favButton.trailingAnchor, constant: 40),
+            editButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
+        ])
+        
+    }
+    
+    @objc func editSaved() {
+        guard let recipeName = recipe?.name else { return }
+        
+        let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", recipeName)
+        
+        do {
+            let fetchedRecipes = try context.fetch(fetchRequest)
+            
+            // Since recipe names are unique, there should be only one matching recipe
+            guard let recipeToUpdate = fetchedRecipes.first else { return }
+            
+            // Update the properties of the recipe
+            recipeToUpdate.name = nameText.text
+            recipeToUpdate.descriptions = desText.text
+            recipeToUpdate.instructions = insText.text
+            
+            //MARK: UPDATE THE INGREDIENT HERE
+            
+            // Save the changes back to Core Data
+            try context.save()
+            
+            // Re-populate the UI with the updated data
+            populateData()
+            
+            print("Recipe updated successfully")
+        } catch {
+            print("Failed to update recipe: \(error)")
+        }
+    }
+    
     func populateData() {
         guard let recipe = recipe else { return }
-        nameLabel.text = recipe.name
-        des.text = recipe.descriptions
-        insTextView.text = recipe.instructions
+        nameText.text = recipe.name
+        nameText.textColor = .black
+        desText.text = recipe.descriptions
+        desText.textColor = .black
+        insText.text = recipe.instructions
+        insText.textColor = .black
         
         if let categories = recipe.recipeCategory?.allObjects as? [Category] {
             tagView.setCategories(categories)
         }
-        
-        // Assume that the categories are stored in a String array in your Recipe model
-        //categoriesLabel.text = recipe.category.joined(separator: ", ")
+
     }
 }

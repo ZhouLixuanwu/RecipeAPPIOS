@@ -33,6 +33,7 @@
 		BC6FFDEA2A775A700003FD6C /* Category+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDE22A775A700003FD6C /* Category+CoreDataClass.swift */; };
 		BC6FFDEB2A775A700003FD6C /* Category+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDE32A775A700003FD6C /* Category+CoreDataProperties.swift */; };
 		BC6FFDED2A776AC50003FD6C /* UserDefaultsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDEC2A776AC50003FD6C /* UserDefaultsData.swift */; };
+		BC6FFDF22A789FB90003FD6C /* IngStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6FFDF12A789FB90003FD6C /* IngStackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		BC6FFDE22A775A700003FD6C /* Category+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+CoreDataClass.swift"; sourceTree = "<group>"; };
 		BC6FFDE32A775A700003FD6C /* Category+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BC6FFDEC2A776AC50003FD6C /* UserDefaultsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsData.swift; sourceTree = "<group>"; };
+		BC6FFDF12A789FB90003FD6C /* IngStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngStackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				BC6FFD732A72FF770003FD6C /* TabBarController.swift */,
 				BC6FFD7F2A7325240003FD6C /* TagView.swift */,
 				BC6FFD7B2A731D720003FD6C /* InputFieldView.swift */,
+				BC6FFDF12A789FB90003FD6C /* IngStackView.swift */,
 				BC6FFD812A7325380003FD6C /* IngredientView.swift */,
 				BC6FFDC02A75F3DB0003FD6C /* RecipeTableViewCell.swift */,
 				BC6FFDCA2A76B6680003FD6C /* CollectionCell.swift */,
@@ -244,6 +247,7 @@
 				BC6FFDC12A75F3DB0003FD6C /* RecipeTableViewCell.swift in Sources */,
 				BC6FFDE72A775A700003FD6C /* Recipe+CoreDataProperties.swift in Sources */,
 				BC6FFDEA2A775A700003FD6C /* Category+CoreDataClass.swift in Sources */,
+				BC6FFDF22A789FB90003FD6C /* IngStackView.swift in Sources */,
 				BC6FFDEB2A775A700003FD6C /* Category+CoreDataProperties.swift in Sources */,
 				BC6FFD702A72FAD10003FD6C /* HomeVC.swift in Sources */,
 				BC6FFDE82A775A700003FD6C /* RecipeIngredient+CoreDataClass.swift in Sources */,

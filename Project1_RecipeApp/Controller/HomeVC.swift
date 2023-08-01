@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var isAscendingOrder = false
     
@@ -33,6 +33,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         //whatisRecipe()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchRecipe()
+    }
+    
+    
     func configureUI() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -49,7 +55,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         view.addSubview(AEButton)
         AEButton.addTarget(self, action: #selector(presentAEVC), for: .touchUpInside)
         
-        AEButton.setTitle("Add/Edit Recipe", for: .normal)
+        AEButton.setTitle("Add Recipe", for: .normal)
         AEButton.backgroundColor = .systemGray
         AEButton.tintColor = .white
         AEButton.translatesAutoresizingMaskIntoConstraints = false
@@ -91,6 +97,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         view.addSubview(collectionView)
 
         collectionView.register(CollectionCell.self, forCellWithReuseIdentifier: CollectionCell.identifier)
+        //collectionView.register(self, forCellWithReuseIdentifier: CollectionCell.identifier)
         collectionView.backgroundColor = .white
         
         collectionView.dataSource = self
@@ -120,7 +127,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: AEButton.bottomAnchor, constant: 80),
+            tableView.topAnchor.constraint(equalTo: AEButton.bottomAnchor, constant: 70),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
@@ -241,22 +248,15 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICo
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        //fetchRecipe()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RecipeTableViewCell.identifier, for: indexPath) as? RecipeTableViewCell else {
             fatalError("The TableView could not dequeue a CustomTableViewCell in ViewController")
         }
         
         let recipe = self.items?[indexPath.row]
         cell.recipeNameLabel.text = recipe?.name
-//        if let categories = recipe?.recipeCategory?.allObjects as? [Category] {
-//            cell.cateTagView.setCategories(categories)
-//        }
-        
         if let categories = recipe?.recipeCategory?.allObjects as? [Category] {
             cell.cateTagView.setCategories(categories)
-//            let categoryNames = categories.compactMap { $0.name as? String}
-//            let categoriesText = categoryNames.joined(separator: ", ")
-//            cell.textLabel?.text = categoriesText
             for view in cell.cateTagView.subviews {
                 if let button = view as? UIButton {
                     button.isUserInteractionEnabled = false
