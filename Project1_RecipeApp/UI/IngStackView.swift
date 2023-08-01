@@ -25,18 +25,17 @@ class IngredientStackView: UIStackView {
         unitLabel = UILabel()
 
         super.init(frame: .zero)
-
         self.axis = .horizontal
-        self.distribution = .fillProportionally
+        self.distribution = .fill
         self.spacing = 10
 
+        setupImageView()
+        setupLabels()
+        
         self.addArrangedSubview(imageView)
         self.addArrangedSubview(nameLabel)
         self.addArrangedSubview(quantityLabel)
         self.addArrangedSubview(unitLabel)
-
-        setupImageView()
-        setupLabels()
     }
     
     required init(coder: NSCoder) {
@@ -44,7 +43,7 @@ class IngredientStackView: UIStackView {
     }
     
     func setupWith(ingredient: Ingredient) {
-        imageView.image = ingredient.imageName != nil ? UIImage(named: ingredient.imageName!) : UIImage(named: "placeholder")
+        imageView.image = ingredient.imageName != nil ? UIImage(named: ingredient.imageName!) : UIImage(systemName: "home")
         nameLabel.text = ingredient.name ?? "Unknown"
         quantityLabel.text = ingredient.fromWhichRI?.quantity != nil ? String(ingredient.fromWhichRI!.quantity) : "0"
         unitLabel.text = ingredient.unit ?? "Unknown"
@@ -53,16 +52,21 @@ class IngredientStackView: UIStackView {
     private func setupImageView() {
         imageView.contentMode = .scaleAspectFit
         imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
-    
+
     private func setupLabels() {
         nameLabel.font = UIFont.systemFont(ofSize: 16)
         nameLabel.textColor = .black
-        
+        nameLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+
         quantityLabel.font = UIFont.systemFont(ofSize: 16)
         quantityLabel.textColor = .black
-        
+        quantityLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+
         unitLabel.font = UIFont.systemFont(ofSize: 16)
         unitLabel.textColor = .black
+        unitLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
+    
 }

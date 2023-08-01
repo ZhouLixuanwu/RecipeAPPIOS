@@ -19,7 +19,7 @@ class DetailVC: UIViewController {
     var imageView = UIImageView()
     
     var tagView = TagView()
-    var scrollView: UIScrollView!
+    var scrollView = UIScrollView()
     
     let nameText = UITextField()
     let desText = UITextField()
@@ -30,6 +30,9 @@ class DetailVC: UIViewController {
     
     let favButton = UIButton()
     let editButton = UIButton()
+    
+    //var ingredientsStackView = IngredientStackView()
+    var ingredientsStackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,16 +58,29 @@ class DetailVC: UIViewController {
     }
     
     func setupScrollView() {
-        scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
+
         view.addSubview(scrollView)
         scrollView.backgroundColor = .lightGray
-        // Position and size the scroll view with constraints
+        
+        //ingredientsStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             scrollView.topAnchor.constraint(equalTo: riLabel.bottomAnchor, constant: 20),
-            scrollView.heightAnchor.constraint(equalToConstant: 100)
+            scrollView.heightAnchor.constraint(equalToConstant: 100),
+        ])
+        
+        ingredientsStackView.axis = .vertical
+        ingredientsStackView.spacing = 10
+        scrollView.addSubview(ingredientsStackView)
+        ingredientsStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            ingredientsStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            ingredientsStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            ingredientsStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            ingredientsStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
     
@@ -269,6 +285,25 @@ class DetailVC: UIViewController {
         if let categories = recipe.recipeCategory?.allObjects as? [Category] {
             tagView.setCategories(categories)
         }
-
+        
+        // Clear the ingredientsStackView first
+//        for view in ingredientsStackView.arrangedSubviews {
+//            ingredientsStackView.removeArrangedSubview(view)
+//            view.removeFromSuperview()
+//        }
+        
+        //MARK: loop through each ingredient in the recipe
+        //MARK: create an IngredientStackView for each one, and add it to ingredientsStackView:
+        if let ingredients = recipe.recipeIngredient?.allObjects as? [RecipeIngredient] {
+            //ingredientsStackView.clearIngredients()
+            for ingredient in ingredients {
+                let ingredientView = IngredientStackView()
+                ingredientView.setupWith(ingredient: ingredient.ingredient!)
+                //ingredientView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+                ingredientsStackView.addArrangedSubview(ingredientView)
+                print("added the ingredient \(ingredient.quantity)")
+            }
+        }
+        //scrollView.layoutIfNeeded()
     }
 }

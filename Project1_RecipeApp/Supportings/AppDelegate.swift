@@ -77,19 +77,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         recipe1.name = "Recipe1"
         recipe1.instructions = "Instructions for Recipe 1"
         recipe1.descriptions = "descriptions for Recipe 1"
+        
+        // Creating ingredients and recipe ingredients for Recipe 1
+        let ingredient1 = Ingredient(context: context)
+        ingredient1.name = "Milk"
+        ingredient1.unit = "Cups"
+        
+        let recipeIngredient1 = RecipeIngredient(context: context)
+        recipeIngredient1.quantity = 2.0
+        recipeIngredient1.ingredient = ingredient1
+        recipeIngredient1.whichRecipe = recipe1
+        recipe1.addToRecipeIngredient(recipeIngredient1)
+        
+        let ingredient2 = Ingredient(context: context)
+        ingredient2.name = "Sugar"
+        ingredient2.unit = "Grams"
+        
+        let recipeIngredient2 = RecipeIngredient(context: context)
+        recipeIngredient2.quantity = 100.0
+        recipeIngredient2.ingredient = ingredient2
+        recipeIngredient2.whichRecipe = recipe1
+        recipe1.addToRecipeIngredient(recipeIngredient2)
+        
         // Assigning categories to Recipe 1
         let breakfastCategory = fetchCategory(named: "breakfast")
         let lunchCategory = fetchCategory(named: "lunch")
-        
-        //MARK: I set it to breakfast and it got missing?? Why???
 
         if let breakfastCategory = breakfastCategory {
             recipe1.addToRecipeCategory(breakfastCategory)
-            print("1 add brebreakak")
         }
         if let lunchCategory = lunchCategory {
             recipe1.addToRecipeCategory(lunchCategory)
-            print("1 add lunch")
         }
 
         // Creating Recipe 2
@@ -97,6 +115,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         recipe2.name = "Recipe2"
         recipe2.instructions = "Instructions for Recipe 2"
         recipe2.descriptions = "descriptions for Recipe 2"
+        
+        // Creating ingredients and recipe ingredients for Recipe 3
+        let ingredient3 = Ingredient(context: context)
+        ingredient3.name = "Chicken"
+        ingredient3.unit = "Pound"
+        
+        let recipeIngredient3 = RecipeIngredient(context: context)
+        recipeIngredient3.quantity = 1.0
+        recipeIngredient3.ingredient = ingredient3
+        recipeIngredient3.whichRecipe = recipe2
+        recipe2.addToRecipeIngredient(recipeIngredient3)
+        
+        let ingredient4 = Ingredient(context: context)
+        ingredient4.name = "Salt"
+        ingredient4.unit = "Teaspoon"
+        
+        let recipeIngredient4 = RecipeIngredient(context: context)
+        recipeIngredient4.quantity = 0.5
+        recipeIngredient4.ingredient = ingredient4
+        recipeIngredient4.whichRecipe = recipe2
+        recipe2.addToRecipeIngredient(recipeIngredient4)
         
         // Assigning categories to Recipe 2
         let dinnerCategory = fetchCategory(named: "dinner")
@@ -109,14 +148,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             recipe2.addToRecipeCategory(specialCategory)
         }
 
+        // Additional ingredients for Recipe 1
+        let ingredient7 = Ingredient(context: context)
+        ingredient7.name = "Flour"
+        ingredient7.unit = "Cups"
+
+        let recipeIngredient7 = RecipeIngredient(context: context)
+        recipeIngredient7.quantity = 1.0
+        recipeIngredient7.ingredient = ingredient7
+        recipeIngredient7.whichRecipe = recipe1
+        recipe1.addToRecipeIngredient(recipeIngredient7)
+
+        let ingredient8 = Ingredient(context: context)
+        ingredient8.name = "Egg"
+        ingredient8.unit = "Item"
+
+        let recipeIngredient8 = RecipeIngredient(context: context)
+        recipeIngredient8.quantity = 1.0
+        recipeIngredient8.ingredient = ingredient8
+        recipeIngredient8.whichRecipe = recipe1
+        recipe1.addToRecipeIngredient(recipeIngredient8)
+
+        // Additional ingredients for Recipe 2
+        let ingredient5 = Ingredient(context: context)
+        ingredient5.name = "Pepper"
+        ingredient5.unit = "Teaspoon"
+
+        let recipeIngredient5 = RecipeIngredient(context: context)
+        recipeIngredient5.quantity = 0.25
+        recipeIngredient5.ingredient = ingredient5
+        recipeIngredient5.whichRecipe = recipe2
+        recipe2.addToRecipeIngredient(recipeIngredient5)
+
+        let ingredient6 = Ingredient(context: context)
+        ingredient6.name = "Olive Oil"
+        ingredient6.unit = "Tablespoon"
+
+        let recipeIngredient6 = RecipeIngredient(context: context)
+        recipeIngredient6.quantity = 1.0
+        recipeIngredient6.ingredient = ingredient6
+        recipeIngredient6.whichRecipe = recipe2
+        recipe2.addToRecipeIngredient(recipeIngredient6)
+
         do {
             try context.save()
-            print("Recipes created and saved")
+            print("Recipes, ingredients, and recipe ingredients created and saved")
         }
         catch {
-            print("Failed to save recipes: \(error)")
+            print("Failed to save recipes, ingredients, and recipe ingredients: \(error)")
         }
     }
+
 
     func deleteAllRecipes() {
         let context = persistentContainer.viewContext
